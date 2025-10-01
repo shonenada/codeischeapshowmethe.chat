@@ -165,6 +165,7 @@ main {
   background: radial-gradient(circle at top, rgba(56, 189, 248, 0.3), transparent 55%);
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .post-card:hover {
