@@ -1,0 +1,21 @@
+{
+  "site": {
+    "title": "Codes is cheap, show me the chat",
+    "tagline": "Explore AI-assisted coding dialogues distilled into polished, human-friendly write-ups.",
+    "generatedAt": "2025-10-01T14:15:27.053336+00:00",
+    "timezone": "Asia/Shanghai",
+    "url": "https://codeischeapshowmethe.chat"
+  },
+  "posts": [
+    {
+      "title": "Understanding dynamic module swapping in PyTorch",
+      "slug": "understanding-dynamic-module-swapping-in-pytorch",
+      "url": "posts/understanding-dynamic-module-swapping-in-pytorch.html",
+      "excerpt": "Understanding dynamic module swapping in PyTorch Exported on 6/20/2025 at 20:50:08 GMT+8 from Cursor (1.1.4) User Explain following Python codes: How does it works, and why is can make module fast Cursor This Python code…",
+      "wordCount": 367,
+      "exportedAt": "2025-06-20T12:50:08+00:00",
+      "sourceTool": "Cursor (1.1.4)",
+      "originalPath": "content/dynamic-swap-install.md"
+    }
+  ]
+}

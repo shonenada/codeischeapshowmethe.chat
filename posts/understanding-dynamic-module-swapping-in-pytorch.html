@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Understanding dynamic module swapping in PyTorch • Codes is cheap</title>
+<meta name="description" content="Understanding dynamic module swapping in PyTorch Exported on 6/20/2025 at 20:50:08 GMT+8 from Cursor (1.1.4) User Explain following Python codes: How does it works, and why is can make module fast Cursor This Python code…" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../assets/styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" />
+<script defer src="../assets/main.js"></script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding dynamic module swapping in PyTorch", "description": "Understanding dynamic module swapping in PyTorch Exported on 6/20/2025 at 20:50:08 GMT+8 from Cursor (1.1.4) User Explain following Python codes: How does it works, and why is can make module fast Cursor This Python code…", "author": "AI pair", "wordCount": 367, "datePublished": "2025-06-20T12:50:08+00:00", "dateModified": "2025-10-01T14:15:27.053336+00:00", "inLanguage": "en", "isPartOf": {"@type": "CreativeWork", "name": "Codes is cheap, show me the chat"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "posts/understanding-dynamic-module-swapping-in-pytorch.html"}}
+</script>
+</head>
+<body class="post-page">
+<div class="site-shell">
+<header class="site-header">
+  <div class="inner">
+    <div class="site-title">Codes is cheap</div>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../ai-index.json">AI Index</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <article>
+    <header>
+      <div class="tag">AI session</div>
+      <h1>Understanding dynamic module swapping in PyTorch</h1>
+      <div class="meta">
+        <span>Exported Jun 20, 2025</span>
+        <span>Source · Cursor (1.1.4)</span>
+        <span data-word-count="367">367 words</span>
+      </div>
+    </header>
+    <div class="post-body">
+      <p><em>Exported on 6/20/2025 at 20:50:08 GMT+8 from Cursor (1.1.4)</em></p>
+
+      <hr />
+
+      <p><strong>User</strong></p>
+
+      <p>Explain following Python codes:</p>
+
+      <pre><code>
+class DynamicSwapInstaller:
+    @staticmethod
+    def _install_module(module: torch.nn.Module, **kwargs):
+        original_class = module.__class__
+        module.__dict__[&#x27;forge_backup_original_class&#x27;] = original_class
+
+        def hacked_get_attr(self, name: str):
+            if &#x27;_parameters&#x27; in self.__dict__:
+                _parameters = self.__dict__[&#x27;_parameters&#x27;]
+                if name in _parameters:
+                    p = _parameters[name]
+                    if p is None:
+                        return None
+                    if p.__class__ == torch.nn.Parameter:
+                        return torch.nn.Parameter(p.to(**kwargs), requires_grad=p.requires_grad)
+                    else:
+                        return p.to(**kwargs)
+            if &#x27;_buffers&#x27; in self.__dict__:
+                _buffers = self.__dict__[&#x27;_buffers&#x27;]
+                if name in _buffers:
+                    return _buffers[name].to(**kwargs)
+            return super(original_class, self).__getattr__(name)
+
+        module.__class__ = type(&#x27;DynamicSwap_&#x27; + original_class.__name__, (original_class,), {
+            &#x27;__getattr__&#x27;: hacked_get_attr,
+        })
+
+        return
+
+    @staticmethod
+    def _uninstall_module(module: torch.nn.Module):
+        if &#x27;forge_backup_original_class&#x27; in module.__dict__:
+            module.__class__ = module.__dict__.pop(&#x27;forge_backup_original_class&#x27;)
+        return
+
+    @staticmethod
+    def install_model(model: torch.nn.Module, **kwargs):
+        for m in model.modules():
+            DynamicSwapInstaller._install_module(m, **kwargs)
+        return
+
+    @staticmethod
+    def uninstall_model(model: torch.nn.Module):
+        for m in model.modules():
+            DynamicSwapInstaller._uninstall_module(m)
+        return
+
+      </code></pre>
+
+
+      <p>How does it works, and why is can make module fast</p>
+
+      <hr />
+
+      <p><strong>Cursor</strong></p>
+
+      <p>This Python code implements a <strong>dynamic module swapping system</strong> for PyTorch models that allows runtime device/dtype changes without recreating the model. Let me break down how it works and why it can make modules faster:</p>
+
+      <h2>How It Works</h2>
+
+      <h3>1. <strong>Dynamic Class Creation</strong></h3>
+      <p>The core mechanism uses Python&#x27;s dynamic class creation to intercept attribute access:</p>
+
+      <pre><code class="language-python">
+module.__class__ = type(&#x27;DynamicSwap_&#x27; + original_class.__name__, (original_class,), {
+    &#x27;__getattr__&#x27;: hacked_get_attr,
+})
+      </code></pre>
+
+      <p>This creates a new class that inherits from the original module class but overrides the <code>_<em>getattr</em>_</code> method.</p>
+
+      <h3>2. <strong>Attribute Interception</strong></h3>
+      <p>The <code>hacked<em>get</em>attr</code> function intercepts all attribute access and specifically handles:</p>
+      <ul>
+      <li><strong>Parameters</strong> (<code>_parameters</code>): Converts them to the target device/dtype on-the-fly</li>
+      <li><strong>Buffers</strong> (<code>_buffers</code>): Moves them to the target device/dtype</li>
+      <li><strong>Other attributes</strong>: Delegates to the original class</li>
+      </ul>
+
+      <h3>3. <strong>Lazy Conversion</strong></h3>
+      <p>Instead of moving all parameters immediately, it converts them <strong>only when accessed</strong>:</p>
+
+      <pre><code class="language-python">
+if p.__class__ == torch.nn.Parameter:
+    return torch.nn.Parameter(p.to(**kwargs), requires_grad=p.requires_grad)
+      </code></pre>
+
+      <h2>Why It Makes Modules Fast</h2>
+
+      <h3>1. <strong>Memory Efficiency</strong></h3>
+      <ul>
+      <li><strong>No immediate memory allocation</strong>: Parameters aren&#x27;t moved until actually needed</li>
+      <li><strong>Reduced peak memory usage</strong>: Only active parameters consume GPU memory</li>
+      <li><strong>Better memory management</strong>: Unused parts of the model stay on CPU/disk</li>
+      </ul>
+
+      <h3>2. <strong>Faster Model Loading</strong></h3>
+      <ul>
+      <li><strong>Instant model creation</strong>: No need to wait for all parameters to transfer to GPU</li>
+      <li><strong>Progressive loading</strong>: Parameters move to GPU as they&#x27;re accessed during forward pass</li>
+      <li><strong>Reduced initialization time</strong>: Especially beneficial for large models</li>
+      </ul>
+
+      <h3>3. <strong>Dynamic Device Management</strong></h3>
+      <ul>
+      <li><strong>Runtime device switching</strong>: Can move between CPU/GPU without recreating the model</li>
+      <li><strong>Mixed precision</strong>: Can dynamically switch between float16/float32</li>
+      <li><strong>Multi-device support</strong>: Different parts can be on different devices</li>
+      </ul>
+
+      <h3>4. <strong>Selective Computation</strong></h3>
+      <ul>
+      <li><strong>Path-dependent loading</strong>: Only loads the parts of the model actually used in the current forward pass</li>
+      <li><strong>Branch pruning benefits</strong>: Unused model branches don&#x27;t consume GPU memory</li>
+      <li><strong>Efficient inference</strong>: Perfect for models with conditional execution paths</li>
+      </ul>
+
+      <h2>Example Usage</h2>
+
+      <pre><code class="language-python">
+# Install the dynamic swapping
+DynamicSwapInstaller.install_model(model, device=&#x27;cuda&#x27;, dtype=torch.float16)
+
+# Now parameters are converted on-demand during forward pass
+output = model(input)  # Only accessed parameters move to GPU
+
+# Can switch devices dynamically
+DynamicSwapInstaller.install_model(model, device=&#x27;cpu&#x27;)
+      </code></pre>
+
+      <h2>Key Benefits</h2>
+
+      <p>1. <strong>Immediate model availability</strong> - No waiting for parameter transfers</p>
+      <p>2. <strong>Memory-efficient inference</strong> - Only loads what&#x27;s needed</p>
+      <p>3. <strong>Dynamic optimization</strong> - Can adapt to available resources</p>
+      <p>4. <strong>Seamless device switching</strong> - No model recreation required</p>
+
+      <p>This pattern is particularly useful for:</p>
+      <ul>
+      <li>Large language models with many parameters</li>
+      <li>Models with conditional execution paths</li>
+      <li>Resource-constrained environments</li>
+      <li>Dynamic inference scenarios where device availability changes</li>
+      </ul>
+
+      <pre><code class="language-python">
+module.__class__ = type(&#x27;DynamicSwap_&#x27; + original_class.__name__, (original_class,), {
+    &#x27;__getattr__&#x27;: hacked_get_attr,
+})
+      </code></pre>
+
+      <pre><code class="language-python">
+if p.__class__ == torch.nn.Parameter:
+    return torch.nn.Parameter(p.to(**kwargs), requires_grad=p.requires_grad)
+      </code></pre>
+
+      <pre><code class="language-python">
+# Install the dynamic swapping
+DynamicSwapInstaller.install_model(model, device=&#x27;cuda&#x27;, dtype=torch.float16)
+
+# Now parameters are converted on-demand during forward pass
+output = model(input)  # Only accessed parameters move to GPU
+
+# Can switch devices dynamically
+DynamicSwapInstaller.install_model(model, device=&#x27;cpu&#x27;)
+      </code></pre>
+    </div>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <span><a href="../index.html">Back to the garden</a></span>
+    <span>Updated Oct 01, 2025</span>
+  </div>
+</footer>
+</div>
+</body>
+</html>
