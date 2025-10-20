@@ -2,7 +2,7 @@
   "site": {
     "title": "Codes is cheap, show me the chat",
     "tagline": "Explore AI-assisted coding dialogues distilled into polished, human-friendly write-ups.",
-    "generatedAt": "2025-10-01T14:42:38.036625+00:00",
+    "generatedAt": "2025-10-20T16:30:21.108725+00:00",
     "timezone": "Asia/Shanghai",
     "url": "https://codeischeapshowmethe.chat"
   },
@@ -16,6 +16,16 @@
       "exportedAt": "2025-06-20T12:50:08+00:00",
       "sourceTool": "Cursor (1.1.4)",
       "originalPath": "content/dynamic-swap-install.md"
+    },
+    {
+      "title": "Wide events over metrics, logs, and traces",
+      "slug": "wide-events-over-metrics-logs-and-traces",
+      "url": "posts/wide-events-over-metrics-logs-and-traces.html",
+      "excerpt": "Wide events over metrics, logs, and traces Exported on 07/17/2024 at 00:00:00 GMT+0 from Codex CLI Source material All you need is Wide Events, not \"Metrics, Logs and Traces\" by Ivan Burmistrov (Feb 15, 2024) Hacker News…",
+      "wordCount": 542,
+      "exportedAt": "2024-07-17T00:00:00+00:00",
+      "sourceTool": "Codex CLI",
+      "originalPath": "content/wide-events-not-just-metrics.md"
     }
   ]
 }

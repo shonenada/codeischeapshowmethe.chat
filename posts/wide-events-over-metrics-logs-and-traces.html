@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Wide events over metrics, logs, and traces • Codes is cheap</title>
+<meta name="description" content="Wide events over metrics, logs, and traces Exported on 07/17/2024 at 00:00:00 GMT+0 from Codex CLI Source material All you need is Wide Events, not &quot;Metrics, Logs and Traces&quot; by Ivan Burmistrov (Feb 15, 2024) Hacker News…" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../assets/styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" />
+<script defer src="../assets/main.js"></script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Wide events over metrics, logs, and traces", "description": "Wide events over metrics, logs, and traces Exported on 07/17/2024 at 00:00:00 GMT+0 from Codex CLI Source material All you need is Wide Events, not \"Metrics, Logs and Traces\" by Ivan Burmistrov (Feb 15, 2024) Hacker News…", "author": "AI pair", "wordCount": 542, "datePublished": "2024-07-17T00:00:00+00:00", "dateModified": "2025-10-20T16:30:21.108725+00:00", "inLanguage": "en", "isPartOf": {"@type": "CreativeWork", "name": "Codes is cheap, show me the chat"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "posts/wide-events-over-metrics-logs-and-traces.html"}}
+</script>
+</head>
+<body class="post-page">
+<div class="site-shell">
+<header class="site-header">
+  <div class="inner">
+    <div class="site-title">Codes is cheap</div>
+    <nav class="nav-links">
+      <a href="../index.html">Home</a>
+      <a href="../ai-index.json">AI Index</a>
+      <a href="https://codeischeapshowmethe.chat" rel="noopener">Pages</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <article>
+    <header>
+      <div class="tag">AI session</div>
+      <h1>Wide events over metrics, logs, and traces</h1>
+      <div class="meta">
+        <span>Exported Jul 17, 2024</span>
+        <span>Source · Codex CLI</span>
+        <span data-word-count="542">542 words</span>
+      </div>
+    </header>
+    <div class="post-body">
+      <p><em>Exported on 07/17/2024 at 00:00:00 GMT+0 from Codex CLI</em></p>
+
+      <h2>Source material</h2>
+      <ul>
+      <li><a href="https://isburmistrov.substack.com/p/all-you-need-is-wide-events-not-metrics">All you need is Wide Events, not &quot;Metrics, Logs and Traces&quot;</a> by Ivan Burmistrov (Feb 15, 2024)</li>
+      <li><a href="https://news.ycombinator.com/item?id=39529775">Hacker News discussion</a> (Feb 27, 2024)</li>
+      </ul>
+
+      <h2>Substack highlights</h2>
+      <ul>
+      <li>Burmistrov argues that the industry&#x27;s obsession with the &quot;three pillars&quot; of observability (metrics, logs, traces) hides the real goal: being able to explore high-cardinality production data quickly when the failure mode is still an unknown unknown.</li>
+      <li>At Meta, the Scuba system treats everything as a <strong>wide event</strong>: a single, very wide record (think JSON object) that captures every bit of context about what happened. Analysts can slice, dice, group, and filter those events along any dimension without pre-aggregation penalties.</li>
+      <li>The post walks through a debugging story where a conversion drop is isolated by iteratively filtering wide events until just one OS version and app build remain. Because nothing was pre-aggregated, no detail was lost, and the people who own the failing component are immediately obvious.</li>
+      <li>Wide events subsume the three pillars because traces are just events with <code>TraceId</code>/<code>SpanId</code>, logs are structured fields with a message, and metrics are periodic state snapshots. Keeping everything raw defers schema decisions to query time and makes cross-correlation much easier.</li>
+      <li>The author&#x27;s frustration is mainly with OpenTelemetry education: the glossary of 60+ terms and pillar-first framing make observability feel complex and gated, when the underlying idea could be as simple as &quot;capture rich events and explore them&quot;.</li>
+      </ul>
+
+      <h2>HN discussion themes</h2>
+      <ul>
+      <li>Commenters largely agree the concept is powerful, but emphasize that storing and querying every field for every event is <strong>expensive</strong>, especially when you pay a vendor. Cost, not confusion, is the reason many teams lean on pre-aggregated metrics.</li>
+      <li>Several readers note that &quot;wide events&quot; map closely to structured logging, Kafka streams feeding Elastic/ClickHouse, or event-sourcing patterns. The novelty is less technical than operational maturity and great tooling.</li>
+      <li>Engineers from smaller shops point out that on-prem pipelines can be cost-effective (e.g., Kafka + Elastic on a handful of servers), but once you scale to cloud vendors the bill grows quadratically with success.</li>
+      <li>A few warn about data swamps: &quot;just put it there&quot; easily leads to uncontrolled retention, unclear ownership, and shadow dependencies when other teams start automating against your event stream.</li>
+      <li>Others explore hybrids: generating metrics from the event firehose, batching wide events into Parquet, or using OpenTelemetry spans but improving the UI so the wide-event mental model is accessible.</li>
+      <li>Meta-level criticism surfaces too: vendors bend &quot;observability&quot; into whatever they can sell, and the &quot;all you need is X&quot; framing ignores the trade-offs that real teams juggle.</li>
+      </ul>
+
+      <h2>Takeaways for our stack</h2>
+      <ul>
+      <li>Wide events shine when you have the infrastructure to store raw context cheaply and a UI that makes faceted exploration fast; without both, the approach stalls.</li>
+      <li>Cost governance and retention policies have to evolve alongside the data model, or the wide-event lake turns into an unsearchable swamp.</li>
+      <li>Even if we cannot afford Scuba-level depth, adopting structured events as the default emission format keeps the door open for richer tooling later. Metrics can always be derived downstream, but lost detail is gone forever.</li>
+      <li>Communicating the mental model matters: pitch observability as &quot;capturing richly structured events you can interrogate&quot; rather than &quot;learn these three disjoint pillars&quot;.</li>
+      </ul>
+    </div>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <span><a href="../index.html">Back to the garden</a></span>
+    <span>Updated Oct 20, 2025</span>
+  </div>
+</footer>
+</div>
+</body>
+</html>
