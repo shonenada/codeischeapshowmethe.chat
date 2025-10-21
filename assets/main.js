@@ -15,11 +15,12 @@
   }
 
   const readingBadges = document.querySelectorAll("[data-word-count]");
+  const readLabel = document.body.getAttribute("data-read-label") || "min read";
   readingBadges.forEach((node) => {
     const words = parseInt(node.getAttribute("data-word-count") || "0", 10);
     if (words > 0) {
       const minutes = Math.max(1, Math.round(words / 200));
-      node.textContent = `${minutes} min read`;
+      node.textContent = `${minutes} ${readLabel}`;
     }
   });
 })();

@@ -2,9 +2,10 @@
   "site": {
     "title": "Codes is cheap, show me the chat",
     "tagline": "Explore AI-assisted coding dialogues distilled into polished, human-friendly write-ups.",
-    "generatedAt": "2025-10-20T17:02:30.829003+00:00",
+    "generatedAt": "2025-10-21T10:26:13.016577+00:00",
     "timezone": "Asia/Shanghai",
-    "url": "https://codeischeapshowmethe.chat"
+    "url": "https://codeischeapshowmethe.chat",
+    "language": "en"
   },
   "posts": [
     {
@@ -15,7 +16,8 @@
       "wordCount": 367,
       "exportedAt": "2025-06-20T12:50:08+00:00",
       "sourceTool": "Cursor (1.1.4)",
-      "originalPath": "content/dynamic-swap-install.md"
+      "originalPath": "en/understanding-dynamic-module-swapping-in-pytorch.md",
+      "language": "en"
     },
     {
       "title": "Wide events over metrics, logs, and traces",
@@ -25,7 +27,8 @@
       "wordCount": 542,
       "exportedAt": "2024-07-17T00:00:00+00:00",
       "sourceTool": "Codex CLI",
-      "originalPath": "content/wide-events-not-just-metrics.md"
+      "originalPath": "en/wide-events-over-metrics-logs-and-traces.md",
+      "language": "en"
     }
   ]
 }

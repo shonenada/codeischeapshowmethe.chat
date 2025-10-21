@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+<title>Understanding dynamic module swapping in PyTorch（中文解读） • 代码不贵</title>
+<meta name="description" content="Understanding dynamic module swapping in PyTorch（中文解读） 导出时间：2025/6/20 20:50:08 GMT+8，来自 Cursor (1.1.4) 用户 请解释下面的 Python 代码： 它是如何工作的？为什么会让模块运行得更快？ Cursor 这段 Python 代码实现了一个 动态模块交换机制，允许在运行时为 PyTorch 模块切换设备或数据类型，而无需重新实例化模型。下…" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../../assets/styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600&display=swap" />
+<script defer src="../../assets/main.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T26MRBE407"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-T26MRBE407');
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding dynamic module swapping in PyTorch（中文解读）", "description": "Understanding dynamic module swapping in PyTorch（中文解读） 导出时间：2025/6/20 20:50:08 GMT+8，来自 Cursor (1.1.4) 用户 请解释下面的 Python 代码： 它是如何工作的？为什么会让模块运行得更快？ Cursor 这段 Python 代码实现了一个 动态模块交换机制，允许在运行时为 PyTorch 模块切换设备或数据类型，而无需重新实例化模型。下…", "author": "AI pair", "wordCount": 89, "datePublished": null, "dateModified": "2025-10-21T10:26:13.016577+00:00", "inLanguage": "zh", "isPartOf": {"@type": "CreativeWork", "name": "代码不贵，把对话给我"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "zh/posts/understanding-dynamic-module-swapping-in-pytorch.html"}}
+</script>
+</head>
+<body class="post-page" data-read-label="分钟阅读">
+<div class="site-shell">
+<header class="site-header">
+  <div class="inner">
+    <div class="site-title">代码不贵</div>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a href="../index.html">首页</a>
+        <a href="../ai-index.json">AI 索引</a>
+        <a href="https://codeischeapshowmethe.chat" rel="noopener">正式站</a>
+      </nav>
+      <div class="lang-switch" role="navigation" aria-label="切换语言">
+        <a class="lang-option" href="../../posts/understanding-dynamic-module-swapping-in-pytorch.html">English</a><span class="lang-divider">•</span><span class="lang-option lang-current">中文</span>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+  <article>
+    <header>
+      <div class="post-badge">AI 会话</div>
+      <h1>Understanding dynamic module swapping in PyTorch（中文解读）</h1>
+      <div class="meta">
+        <span class="meta-chip" data-word-count="89">89 字</span>
+      </div>
+    </header>
+    <div class="post-body">
+      <p><em>导出时间：2025/6/20 20:50:08 GMT+8，来自 Cursor (1.1.4)</em></p>
+
+      <hr />
+
+      <p><strong>用户</strong></p>
+
+      <p>请解释下面的 Python 代码：</p>
+
+      <pre><code>
+class DynamicSwapInstaller:
+    @staticmethod
+    def _install_module(module: torch.nn.Module, **kwargs):
+        original_class = module.__class__
+        module.__dict__[&#x27;forge_backup_original_class&#x27;] = original_class
+
+        def hacked_get_attr(self, name: str):
+            if &#x27;_parameters&#x27; in self.__dict__:
+                _parameters = self.__dict__[&#x27;_parameters&#x27;]
+                if name in _parameters:
+                    p = _parameters[name]
+                    if p is None:
+                        return None
+                    if p.__class__ == torch.nn.Parameter:
+                        return torch.nn.Parameter(p.to(**kwargs), requires_grad=p.requires_grad)
+                    else:
+                        return p.to(**kwargs)
+            if &#x27;_buffers&#x27; in self.__dict__:
+                _buffers = self.__dict__[&#x27;_buffers&#x27;]
+                if name in _buffers:
+                    return _buffers[name].to(**kwargs)
+            return super(original_class, self).__getattr__(name)
+
+        module.__class__ = type(&#x27;DynamicSwap_&#x27; + original_class.__name__, (original_class,), {
+            &#x27;__getattr__&#x27;: hacked_get_attr,
+        })
+
+        return
+
+    @staticmethod
+    def _uninstall_module(module: torch.nn.Module):
+        if &#x27;forge_backup_original_class&#x27; in module.__dict__:
+            module.__class__ = module.__dict__.pop(&#x27;forge_backup_original_class&#x27;)
+        return
+
+    @staticmethod
+    def install_model(model: torch.nn.Module, **kwargs):
+        for m in model.modules():
+            DynamicSwapInstaller._install_module(m, **kwargs)
+        return
+
+    @staticmethod
+    def uninstall_model(model: torch.nn.Module):
+        for m in model.modules():
+            DynamicSwapInstaller._uninstall_module(m)
+        return
+      </code></pre>
+
+      <p>它是如何工作的？为什么会让模块运行得更快？</p>
+
+      <hr />
+
+      <p><strong>Cursor</strong></p>
+
+      <p>这段 Python 代码实现了一个 <strong>动态模块交换机制</strong>，允许在运行时为 PyTorch 模块切换设备或数据类型，而无需重新实例化模型。下面按步骤拆解它的工作原理以及性能收益。</p>
+
+      <h2>核心思路</h2>
+
+      <h3>1. 动态创建派生类</h3>
+      <p>代码通过 Python 的动态类型系统，把原始模块替换成一个新的派生类：</p>
+
+      <pre><code class="language-python">
+module.__class__ = type(&#x27;DynamicSwap_&#x27; + original_class.__name__, (original_class,), {
+    &#x27;__getattr__&#x27;: hacked_get_attr,
+})
+      </code></pre>
+
+      <p>这个新类继承原始模块，并覆写 <code>_<em>getattr</em>_</code>，用来截获属性访问。</p>
+
+      <h3>2. 截获参数与缓冲区</h3>
+      <p><code>hacked<em>get</em>attr</code> 会在访问参数或缓冲区时，按需将其迁移到指定的设备或 dtype：</p>
+
+      <ul>
+      <li><strong>参数</strong> (<code>_parameters</code>)：若访问到的是张量或 Parameter，就调用 <code>.to(**kwargs)</code> 把数据放到目标设备 / 精度。</li>
+      <li><strong>缓冲区</strong> (<code>_buffers</code>)：同样调用 <code>.to(**kwargs)</code>。</li>
+      <li>其他属性：回退到原始类的 <code>_<em>getattr</em>_</code>。</li>
+      </ul>
+
+      <h3>3. 惰性迁移</h3>
+      <p>真正的加速点在于“只在访问时才迁移数据”。和一次性把所有权重搬到显存不同，这里只有当参数被访问时才迁移。</p>
+
+      <pre><code class="language-python">
+if p.__class__ == torch.nn.Parameter:
+    return torch.nn.Parameter(p.to(**kwargs), requires_grad=p.requires_grad)
+else:
+    return p.to(**kwargs)
+      </code></pre>
+
+      <h2>为什么更快 / 更省内存</h2>
+
+      <h3>1. 内存占用更可控</h3>
+      <ul>
+      <li><strong>无需一次性迁移所有参数</strong>，显存峰值降低。</li>
+      <li>未访问到的支路不会占用 GPU 资源。</li>
+      </ul>
+
+      <h3>2. 模型加载更轻量</h3>
+      <ul>
+      <li><strong>初始化几乎即时</strong>：模型结构载入后，即可运行，真正需要的参数在访问时才迁移。</li>
+      <li><strong>按需加载</strong>：尤其适合拥有条件分支的大模型。</li>
+      </ul>
+
+      <h3>3. 动态设备管理</h3>
+      <ul>
+      <li>可以在执行过程中在 CPU / GPU 之间切换。</li>
+      <li>也便于混合精度或多 GPU 场景下按需分配资源。</li>
+      </ul>
+
+      <h3>4. 有利于选择性执行</h3>
+      <ul>
+      <li>对于包含条件逻辑的网络，只迁移和执行被选中的路径，更节省时间与显存。</li>
+      </ul>
+
+      <h2>使用示例</h2>
+
+      <pre><code class="language-python">
+# 安装动态交换逻辑
+DynamicSwapInstaller.install_model(model, device=&#x27;cuda&#x27;, dtype=torch.float16)
+
+# 前向推理时，参数会按需转换
+output = model(input)
+
+# 需要时可切回 CPU
+DynamicSwapInstaller.install_model(model, device=&#x27;cpu&#x27;)
+      </code></pre>
+
+      <h2>适用场景</h2>
+
+      <p>这种模式尤其适用于：</p>
+
+      <ul>
+      <li>参数量巨大的模型（例如大语言模型）。</li>
+      <li>含有条件分支或稀疏调用的网络。</li>
+      <li>资源受限、需要灵活调度设备的环境。</li>
+      <li>需要频繁切换 dtype 或设备的实验流程。</li>
+      </ul>
+
+      <p>总结来说，代码通过动态派生类和惰性迁移，让 PyTorch 模块可以“按访问迁移”，因此在内存占用与初始化时间上都更高效。</p>
+    </div>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <span><a href="../index.html">返回首页</a></span>
+    <span>更新 2025年10月21日</span>
+    <span>由好奇的机器与耐心的人类共同写就。</span>
+  </div>
+</footer>
+</div>
+</body>
+</html>

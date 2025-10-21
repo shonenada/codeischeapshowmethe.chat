@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh" dir="ltr">
+<head>
+<title>Wide events over metrics, logs, and traces（中文解读） • 代码不贵</title>
+<meta name="description" content="Wide events over metrics, logs, and traces（中文解读） 导出时间：2024/07/17 00:00:00 GMT+0，来自 Codex CLI 参考材料 All you need is Wide Events, not &quot;Metrics, Logs and Traces&quot;，作者 Ivan Burmistrov，发表于 2024 年 2 月 15 日 Hacker News 讨论（2024 年 2…" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../../assets/styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600&display=swap" />
+<script defer src="../../assets/main.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T26MRBE407"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-T26MRBE407');
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Wide events over metrics, logs, and traces（中文解读）", "description": "Wide events over metrics, logs, and traces（中文解读） 导出时间：2024/07/17 00:00:00 GMT+0，来自 Codex CLI 参考材料 All you need is Wide Events, not \"Metrics, Logs and Traces\"，作者 Ivan Burmistrov，发表于 2024 年 2 月 15 日 Hacker News 讨论（2024 年 2…", "author": "AI pair", "wordCount": 104, "datePublished": null, "dateModified": "2025-10-21T10:26:13.016577+00:00", "inLanguage": "zh", "isPartOf": {"@type": "CreativeWork", "name": "代码不贵，把对话给我"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "zh/posts/wide-events-over-metrics-logs-and-traces.html"}}
+</script>
+</head>
+<body class="post-page" data-read-label="分钟阅读">
+<div class="site-shell">
+<header class="site-header">
+  <div class="inner">
+    <div class="site-title">代码不贵</div>
+    <div class="header-right">
+      <nav class="nav-links">
+        <a href="../index.html">首页</a>
+        <a href="../ai-index.json">AI 索引</a>
+        <a href="https://codeischeapshowmethe.chat" rel="noopener">正式站</a>
+      </nav>
+      <div class="lang-switch" role="navigation" aria-label="切换语言">
+        <a class="lang-option" href="../../posts/wide-events-over-metrics-logs-and-traces.html">English</a><span class="lang-divider">•</span><span class="lang-option lang-current">中文</span>
+      </div>
+    </div>
+  </div>
+</header>
+<main>
+  <article>
+    <header>
+      <div class="post-badge">AI 会话</div>
+      <h1>Wide events over metrics, logs, and traces（中文解读）</h1>
+      <div class="meta">
+        <span class="meta-chip" data-word-count="104">104 字</span>
+      </div>
+    </header>
+    <div class="post-body">
+      <p><em>导出时间：2024/07/17 00:00:00 GMT+0，来自 Codex CLI</em></p>
+
+      <h2>参考材料</h2>
+      <ul>
+      <li><a href="https://isburmistrov.substack.com/p/all-you-need-is-wide-events-not-metrics">All you need is Wide Events, not &quot;Metrics, Logs and Traces&quot;</a>，作者 Ivan Burmistrov，发表于 2024 年 2 月 15 日</li>
+      <li><a href="https://news.ycombinator.com/item?id=39529775">Hacker News 讨论</a>（2024 年 2 月 27 日）</li>
+      </ul>
+
+      <h2>Substack 精选要点</h2>
+      <ul>
+      <li>Burmistrov 认为，业界对“可观测性三驾马车”（指标、日志、追踪）的执念，让人忽视了真正的目标：当故障形态还是未知的“未知”时，需要能快速探索高基数字段的生产数据。</li>
+      <li>在 Meta，Scuba 把一切都视为 <strong>wide event</strong>：单条包含大量字段的事件记录（类似超宽的 JSON），几乎把发生时的所有上下文都塞进去。分析师可以沿任何维度切片、分组、筛选，不需要预聚合，也就没有粒度损失。</li>
+      <li>文章通过一次转化率骤降的排障故事说明：团队不断筛选 wide event，最终锁定特定的 OS 版本和构建号。因为没有预聚合，所有细节都保留下来，负责出问题组件的团队立刻浮现。</li>
+      <li>wide event 可以覆盖三驾马车：trace 只是在事件里多了 <code>TraceId</code>/<code>SpanId</code>；日志是携带 message 的结构化字段；指标是定期快照。保留原始事件，把模式选择延迟到查询时，自然让跨维度关联更容易。</li>
+      <li>作者的吐槽集中在 OpenTelemetry 教学上：厚厚一摞术语表、以三驾马车为起点的叙述，让可观测性显得晦涩而门槛高。但核心理念其实可以简单归结为“捕获富含上下文的事件并探索它们”。</li>
+      </ul>
+
+      <h2>HN 讨论的侧重点</h2>
+      <ul>
+      <li>多数评论者认可理念，但强调“把所有字段都存下来并可查询”很 <strong>烧钱</strong>，尤其在采购 SaaS 时。很多团队选择预聚合指标，并非因为不理解，而是成本压力。</li>
+      <li>不少人指出，wide event 和结构化日志、Kafka→Elastic/ClickHouse、事件溯源模式非常契合。新意更多在于运维成熟度和优秀工具，而非技术本身。</li>
+      <li>中小团队的工程师表示，如果自建（Kafka + Elastic）管线，成本可控；一旦依赖云厂商服务，账单会随着用量呈指数增长。</li>
+      <li>有人提醒不要把数据湖做成“数据沼泽”：如果只是“统统塞进去”，缺少留存策略、责任划分，以及对下游依赖的管理，很快就失控。</li>
+      <li>也有人探讨混合方案：从事件洪流中派生指标、把 wide event 批量写入 Parquet，或在使用 OpenTelemetry span 的同时强化 UI，让 wide event 的心智模型更易理解。</li>
+      <li>元讨论也不少：供应商会把“可观测性”解释成自己能卖的形态，而“一切只需 X”式的口号往往忽略了真实团队面对的权衡。</li>
+      </ul>
+
+      <h2>对我们栈的启发</h2>
+      <ul>
+      <li>wide event 的优势离不开廉价的原始存储，以及支持多维探索的交互界面；少任何一环，思路都会折翼。</li>
+      <li>成本治理与留存策略必须与数据模型同步迭代，否则 wide event 湖迟早变成无法检索的沼泽。</li>
+      <li>即便暂时做不到 Scuba 那种深度，把结构化事件当作默认的输出格式，也能为未来的工具演进留好空间。指标随时可在下游派生，但丢掉的细节再也找不回来。</li>
+      <li>传播理念同样重要：与其让同事背诵“指标、日志、追踪三大类”，不如描述成“捕获可询问的、结构化且上下文丰富的事件”。</li>
+      </ul>
+    </div>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <span><a href="../index.html">返回首页</a></span>
+    <span>更新 2025年10月21日</span>
+    <span>由好奇的机器与耐心的人类共同写就。</span>
+  </div>
+</footer>
+</div>
+</body>
+</html>

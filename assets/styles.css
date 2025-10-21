@@ -87,6 +87,12 @@ a:hover {
   justify-content: space-between;
 }
 
+.header-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
 .site-title {
   font-size: 0.95rem;
   letter-spacing: 0.18em;
@@ -111,6 +117,36 @@ a:hover {
 .nav-links a:hover {
   color: var(--text-primary);
   transform: translateY(-1px);
+}
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.lang-option {
+  color: inherit;
+  opacity: 0.7;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.lang-option:hover {
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+.lang-option.lang-current {
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+.lang-divider {
+  color: rgba(148, 197, 255, 0.5);
 }
 
 main {
@@ -541,6 +577,12 @@ main {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.9rem;
+  }
+
+  .header-right {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
   }
 
   .nav-links {
