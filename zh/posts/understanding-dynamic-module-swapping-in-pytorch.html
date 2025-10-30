@@ -18,36 +18,37 @@
   gtag('config', 'G-T26MRBE407');
 </script>
 <script type="application/ld+json">
-{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding dynamic module swapping in PyTorch（中文解读）", "description": "Understanding dynamic module swapping in PyTorch（中文解读） 导出时间：2025/6/20 20:50:08 GMT+8，来自 Cursor (1.1.4) 用户 请解释下面的 Python 代码： 它是如何工作的？为什么会让模块运行得更快？ Cursor 这段 Python 代码实现了一个 动态模块交换机制，允许在运行时为 PyTorch 模块切换设备或数据类型，而无需重新实例化模型。下…", "author": "AI pair", "wordCount": 89, "datePublished": null, "dateModified": "2025-10-21T10:26:13.016577+00:00", "inLanguage": "zh", "isPartOf": {"@type": "CreativeWork", "name": "代码不贵，把对话给我"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "zh/posts/understanding-dynamic-module-swapping-in-pytorch.html"}}
+{"@context": "https://schema.org", "@type": "Article", "headline": "Understanding dynamic module swapping in PyTorch（中文解读）", "description": "Understanding dynamic module swapping in PyTorch（中文解读） 导出时间：2025/6/20 20:50:08 GMT+8，来自 Cursor (1.1.4) 用户 请解释下面的 Python 代码： 它是如何工作的？为什么会让模块运行得更快？ Cursor 这段 Python 代码实现了一个 动态模块交换机制，允许在运行时为 PyTorch 模块切换设备或数据类型，而无需重新实例化模型。下…", "author": "AI pair", "wordCount": 89, "datePublished": null, "dateModified": "2025-10-30T07:48:01.889451+00:00", "inLanguage": "zh", "isPartOf": {"@type": "CreativeWork", "name": "代码不贵，把对话给我"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "zh/posts/understanding-dynamic-module-swapping-in-pytorch.html"}}
 </script>
 </head>
 <body class="post-page" data-read-label="分钟阅读">
-<div class="site-shell">
-<header class="site-header">
-  <div class="inner">
-    <div class="site-title">代码不贵</div>
-    <div class="header-right">
-      <nav class="nav-links">
-        <a href="../index.html">首页</a>
-        <a href="../ai-index.json">AI 索引</a>
-        <a href="https://codeischeapshowmethe.chat" rel="noopener">正式站</a>
-      </nav>
-      <div class="lang-switch" role="navigation" aria-label="切换语言">
-        <a class="lang-option" href="../../posts/understanding-dynamic-module-swapping-in-pytorch.html">English</a><span class="lang-divider">•</span><span class="lang-option lang-current">中文</span>
+<div class="page-shell">
+  <header class="site-header">
+    <div class="container inner">
+      <div class="brand">代码不贵</div>
+      <div class="header-right">
+        <nav class="site-nav">
+          <a href="../index.html">首页</a>
+          <a href="../ai-index.json">AI 索引</a>
+          <a href="https://codeischeapshowmethe.chat" rel="noopener">正式站</a>
+        </nav>
+        <div class="lang-switch" role="navigation" aria-label="切换语言">
+          <a class="lang-option" href="../../posts/understanding-dynamic-module-swapping-in-pytorch.html">English</a><span class="lang-divider">•</span><span class="lang-option lang-current">中文</span>
+        </div>
       </div>
     </div>
-  </div>
-</header>
-<main>
-  <article>
-    <header>
-      <div class="post-badge">AI 会话</div>
-      <h1>Understanding dynamic module swapping in PyTorch（中文解读）</h1>
-      <div class="meta">
-        <span class="meta-chip" data-word-count="89">89 字</span>
-      </div>
-    </header>
-    <div class="post-body">
+  </header>
+  <main>
+    <div class="container post-layout">
+      <article class="post-article">
+        <header class="post-header">
+          <div class="post-badge">AI 会话</div>
+          <h1>Understanding dynamic module swapping in PyTorch（中文解读）</h1>
+          <ul class="meta-list">
+            <li class="meta-chip" data-word-count="89">89 字</li>
+          </ul>
+        </header>
+        <div class="post-body">
       <p><em>导出时间：2025/6/20 20:50:08 GMT+8，来自 Cursor (1.1.4)</em></p>
 
       <hr />
@@ -195,16 +196,15 @@ DynamicSwapInstaller.install_model(model, device=&#x27;cpu&#x27;)
       </ul>
 
       <p>总结来说，代码通过动态派生类和惰性迁移，让 PyTorch 模块可以“按访问迁移”，因此在内存占用与初始化时间上都更高效。</p>
+        </div>
+        <div class="post-footer-bar">
+          <a href="../index.html">返回首页</a>
+          <span>更新 2025年10月30日</span>
+          <span>由好奇的机器与耐心的人类共同写就。</span>
+        </div>
+      </article>
     </div>
-  </article>
-</main>
-<footer class="site-footer">
-  <div class="inner">
-    <span><a href="../index.html">返回首页</a></span>
-    <span>更新 2025年10月21日</span>
-    <span>由好奇的机器与耐心的人类共同写就。</span>
-  </div>
-</footer>
+  </main>
 </div>
 </body>
 </html>
