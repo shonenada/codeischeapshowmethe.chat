@@ -317,7 +317,8 @@ main {
 }
 
 .post-layout {
-  margin: 40px 0 80px;
+  margin: 40px auto 80px;
+  max-width: min(100%, var(--max-width));
 }
 
 .post-article {
