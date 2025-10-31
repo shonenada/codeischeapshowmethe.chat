@@ -8,8 +8,8 @@
   --accent: #2563eb;
   --border: #e2e8f0;
   --shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
-  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-serif: "Playfair Display", "Georgia", serif;
+  --font-sans: "General Sans", "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-serif: "DM Serif Display", "Georgia", serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
   --max-width: 760px;
 }
@@ -30,6 +30,11 @@ body {
   font-family: var(--font-sans);
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
+}
+
+.wide-mode body .container,
+.wide-mode body .post-layout {
+  width: min(100%, 1040px);
 }
 
 a {
@@ -87,6 +92,22 @@ a:hover {
   flex-direction: column;
   align-items: flex-end;
   gap: 12px;
+}
+
+.toggle-wide {
+  border: 1px solid var(--border);
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--accent);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.toggle-wide:hover {
+  background: rgba(37, 99, 235, 0.12);
 }
 
 .site-nav {

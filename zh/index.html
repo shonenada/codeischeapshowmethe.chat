@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../assets/styles.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:wght@600&display=swap" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;600&display=swap" />
 <script defer src="../assets/main.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26MRBE407"></script>
 <script>
@@ -19,6 +19,14 @@
 </script>
 <script type="application/ld+json">
 {"@context": "https://schema.org", "@type": "CollectionPage", "name": "代码不贵，把对话给我", "description": "通过 AI 协作诞生的对话与代码，精心编织成可反复品味的故事集。", "inLanguage": "zh", "about": ["Understanding dynamic module swapping in PyTorch（中文解读）", "Wide events over metrics, logs, and traces（中文解读）"], "hasPart": [{"@type": "Article", "headline": "Understanding dynamic module swapping in PyTorch（中文解读）", "url": "zh/posts/understanding-dynamic-module-swapping-in-pytorch.html", "datePublished": null}, {"@type": "Article", "headline": "Wide events over metrics, logs, and traces（中文解读）", "url": "zh/posts/wide-events-over-metrics-logs-and-traces.html", "datePublished": null}]}
+</script>
+<script>
+  if (typeof localStorage !== 'undefined') {
+    const wide = localStorage.getItem('wide-mode');
+    if (wide === 'true') {
+      document.documentElement.classList.add('wide-mode');
+    }
+  }
 </script>
 </head>
 <body data-read-label="分钟阅读">
@@ -39,6 +47,7 @@
         <div class="lang-switch" role="navigation" aria-label="切换语言">
           <a class="lang-option" href="../index.html">English</a><span class="lang-divider">•</span><span class="lang-option lang-current">中文</span>
         </div>
+        <button class="toggle-wide" type="button" data-wide-toggle>切换宽屏模式</button>
       </div>
     </div>
   </header>

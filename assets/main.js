@@ -23,4 +23,22 @@
       node.textContent = `${minutes} ${readLabel}`;
     }
   });
+
+  const toggle = document.querySelector('[data-wide-toggle]');
+  if (toggle) {
+    const doc = document.documentElement;
+    const syncLabel = () => {
+      const wide = doc.classList.contains('wide-mode');
+      toggle.setAttribute('aria-pressed', wide);
+    };
+    toggle.addEventListener('click', () => {
+      doc.classList.toggle('wide-mode');
+      const wide = doc.classList.contains('wide-mode');
+      try {
+        localStorage.setItem('wide-mode', wide ? 'true' : 'false');
+      } catch (_) {}
+      syncLabel();
+    });
+    syncLabel();
+  }
 })();
