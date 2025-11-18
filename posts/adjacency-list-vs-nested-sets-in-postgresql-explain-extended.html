@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<title>Adjacency List vs Nested Sets in PostgreSQL (Explain Extended) • Codes is cheap</title>
+<meta name="description" content="Adjacency List vs Nested Sets in PostgreSQL (Explain Extended) Source: https://explainextended.com/2009/09/24/adjacency-list-vs-nested-sets-postgresql/ Overview The article compares two classic techniques for modeling hi…" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../assets/styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;600&display=swap" />
+<script defer src="../assets/main.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T26MRBE407"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-T26MRBE407');
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Adjacency List vs Nested Sets in PostgreSQL (Explain Extended)", "description": "Adjacency List vs Nested Sets in PostgreSQL (Explain Extended) Source: https://explainextended.com/2009/09/24/adjacency-list-vs-nested-sets-postgresql/ Overview The article compares two classic techniques for modeling hi…", "author": "AI pair", "wordCount": 255, "datePublished": null, "dateModified": "2025-11-18T09:14:58.316509+00:00", "inLanguage": "en", "isPartOf": {"@type": "CreativeWork", "name": "Codes is cheap, show me the chat"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "posts/adjacency-list-vs-nested-sets-in-postgresql-explain-extended.html"}}
+</script>
+</head>
+<body class="post-page" data-read-label="min read">
+<div class="page-shell">
+  <header class="site-header">
+    <div class="container inner">
+      <div class="brand">Codes is cheap</div>
+      <div class="header-right">
+        <nav class="site-nav">
+          <a href="../index.html">Home</a>
+          <a href="../ai-index.json">AI Index</a>
+          <a href="https://codeischeapshowmethe.chat" rel="noopener">Pages</a>
+        </nav>
+        <div class="lang-switch" role="navigation" aria-label="Switch language">
+          <span class="lang-option lang-current">English</span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="container post-layout">
+      <article class="post-article">
+        <header class="post-header">
+          <div class="post-badge">AI session</div>
+          <h1>Adjacency List vs Nested Sets in PostgreSQL (Explain Extended)</h1>
+          <ul class="meta-list">
+            <li class="meta-chip" data-word-count="255">255 words</li>
+          </ul>
+        </header>
+        <div class="post-body">
+      <p><em>Source: https://explainextended.com/2009/09/24/adjacency-list-vs-nested-sets-postgresql/</em></p>
+
+      <hr />
+
+      <p><strong>Overview</strong></p>
+
+      <p>The article compares two classic techniques for modeling hierarchical data in relational databases—adjacency lists (parent pointers) and nested sets (lft/rgt intervals)—using PostgreSQL. It demonstrates their respective strengths for read-heavy vs write-heavy workloads and shows how to convert between the models.</p>
+
+      <p><strong>Key points</strong></p>
+
+      <ul>
+      <li><strong>Adjacency list basics</strong>: each node stores a <code>parent_id</code>. Recursive queries (CTE <code>WITH RECURSIVE</code>) can traverse the tree to fetch descendants/ancestors. Inserts are cheap; reads require recursion at runtime.</li>
+      <li><strong>Nested sets basics</strong>: each node stores <code>lft</code> and <code>rgt</code> values. Reading a subtree becomes a simple range query (<code>WHERE lft BETWEEN ...</code>), but inserts/updates require shifting large ranges to keep intervals consistent.</li>
+      <li><strong>Performance trade-offs</strong>:</li>
+      <li>Adjacency lists are intuitive and simple to maintain but need recursive queries for reporting.</li>
+      <li>Nested sets deliver blazing-fast subtree reads and ordering but suffer from costly updates when the tree changes often.</li>
+      <li><strong>Conversion</strong>: the author shows how to derive nested-set values from an adjacency list using recursive traversal and <code>row_number()</code>, then comparing EXPLAIN plans for sample queries.</li>
+      <li><strong>Practical advice</strong>: choose adjacency lists when data mutates frequently or depth is limited; choose nested sets for mostly static hierarchies where read performance dominates. PostgreSQL’s recursive CTEs make adjacency lists more viable than in older SQL dialects.</li>
+      </ul>
+
+      <p><strong>Takeaways</strong></p>
+
+      <ul>
+      <li>There is no universal winner; pick the structure aligned with your read/write profile.</li>
+      <li>PostgreSQL’s recursive queries narrow the gap, making adjacency lists attractive unless subtree reads must be instant.</li>
+      <li>Understanding how to convert between models lets you optimize later without losing data.</li>
+      </ul>
+        </div>
+        <div class="post-footer-bar">
+          <a href="../index.html">Back to the garden</a>
+          <span>Updated Nov 18, 2025</span>
+          <span>Crafted with curious machines & thoughtful humans.</span>
+        </div>
+      </article>
+    </div>
+  </main>
+</div>
+</body>
+</html>

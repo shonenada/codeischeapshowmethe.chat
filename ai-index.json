@@ -2,12 +2,23 @@
   "site": {
     "title": "Codes is cheap, show me the chat",
     "tagline": "Explore AI-assisted coding dialogues distilled into polished, human-friendly write-ups.",
-    "generatedAt": "2025-11-18T08:56:15.315841+00:00",
+    "generatedAt": "2025-11-18T09:14:58.316509+00:00",
     "timezone": "Asia/Shanghai",
     "url": "https://codeischeapshowmethe.chat",
     "language": "en"
   },
   "posts": [
+    {
+      "title": "Adjacency List vs Nested Sets in PostgreSQL (Explain Extended)",
+      "slug": "adjacency-list-vs-nested-sets-in-postgresql-explain-extended",
+      "url": "posts/adjacency-list-vs-nested-sets-in-postgresql-explain-extended.html",
+      "excerpt": "Adjacency List vs Nested Sets in PostgreSQL (Explain Extended) Source: https://explainextended.com/2009/09/24/adjacency-list-vs-nested-sets-postgresql/ Overview The article compares two classic techniques for modeling hi…",
+      "wordCount": 255,
+      "exportedAt": null,
+      "sourceTool": null,
+      "originalPath": "en/adjacency-vs-nested-sets.md",
+      "language": "en"
+    },
     {
       "title": "Evaluating Recommender Systems (EvidentlyAI summary)",
       "slug": "evaluating-recommender-systems-evidentlyai-summary",
