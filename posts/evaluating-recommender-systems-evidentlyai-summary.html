@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<title>Evaluating Recommender Systems (EvidentlyAI summary) • Codes is cheap</title>
+<meta name="description" content="Evaluating Recommender Systems (EvidentlyAI summary) Source: https://www.evidentlyai.com/ranking-metrics/evaluating-recommender-systems Overview This EvidentlyAI article walks through how to align ranking metrics with th…" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" href="../assets/styles.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=General+Sans:wght@400;500;600;700&family=DM+Serif+Display&family=JetBrains+Mono:wght@400;600&display=swap" />
+<script defer src="../assets/main.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T26MRBE407"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-T26MRBE407');
+</script>
+<script type="application/ld+json">
+{"@context": "https://schema.org", "@type": "Article", "headline": "Evaluating Recommender Systems (EvidentlyAI summary)", "description": "Evaluating Recommender Systems (EvidentlyAI summary) Source: https://www.evidentlyai.com/ranking-metrics/evaluating-recommender-systems Overview This EvidentlyAI article walks through how to align ranking metrics with th…", "author": "AI pair", "wordCount": 258, "datePublished": null, "dateModified": "2025-11-18T08:56:15.315841+00:00", "inLanguage": "en", "isPartOf": {"@type": "CreativeWork", "name": "Codes is cheap, show me the chat"}, "mainEntityOfPage": {"@type": "WebPage", "@id": "posts/evaluating-recommender-systems-evidentlyai-summary.html"}}
+</script>
+</head>
+<body class="post-page" data-read-label="min read">
+<div class="page-shell">
+  <header class="site-header">
+    <div class="container inner">
+      <div class="brand">Codes is cheap</div>
+      <div class="header-right">
+        <nav class="site-nav">
+          <a href="../index.html">Home</a>
+          <a href="../ai-index.json">AI Index</a>
+          <a href="https://codeischeapshowmethe.chat" rel="noopener">Pages</a>
+        </nav>
+        <div class="lang-switch" role="navigation" aria-label="Switch language">
+          <span class="lang-option lang-current">English</span>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div class="container post-layout">
+      <article class="post-article">
+        <header class="post-header">
+          <div class="post-badge">AI session</div>
+          <h1>Evaluating Recommender Systems (EvidentlyAI summary)</h1>
+          <ul class="meta-list">
+            <li class="meta-chip" data-word-count="258">258 words</li>
+          </ul>
+        </header>
+        <div class="post-body">
+      <p><em>Source: https://www.evidentlyai.com/ranking-metrics/evaluating-recommender-systems</em></p>
+
+      <hr />
+
+      <p><strong>Overview</strong></p>
+
+      <p>This EvidentlyAI article walks through how to align ranking metrics with the business goals of a recommender system. It highlights the difference between product KPIs (click-through, revenue, watch time) and offline proxies such as precision, recall, MAP, nDCG, coverage, novelty, and serendipity.</p>
+
+      <p><strong>Key points</strong></p>
+
+      <ul>
+      <li><strong>Start with product intent</strong> – determine whether the recommender should drive clicks, conversions, dwell time, or other KPIs. Design experiments and datasets that mimic production distribution, and define what “relevance” means for your catalog.</li>
+      <li><strong>Core ranking metrics</strong>:</li>
+      <li>*Precision@K / Recall@K*: share of relevant items among the top-K or recall of all relevant items within the shortlist.</li>
+      <li>*MRR / MAP*: reward correct items ranked high by averaging reciprocal rank or precision at each hit.</li>
+      <li>*nDCG*: discounts lower-ranked hits and normalizes across users so scores are comparable.</li>
+      <li>*Coverage*: measures how much of the catalog and user base the system actually recommends.</li>
+      <li><strong>Beyond accuracy</strong> – track diversity, novelty, and serendipity to avoid echo-chamber recommendations and surface long-tail items. Monitor business constraints like price ranges or brand mix if merchandising requires it.</li>
+      <li><strong>Evaluation workflow</strong> – combine offline validation (holdout sets, cross-validation) with online A/B tests; continually monitor logs for drift, cold start behavior, and catalog changes.</li>
+      </ul>
+
+      <p><strong>Takeaways</strong></p>
+
+      <ul>
+      <li>There is no single “best” metric; teams need a balanced scoreboard that connects offline rank metrics with online business KPIs.</li>
+      <li>High-quality logging (user interactions, impressions, context) is the foundation for meaningful evaluation.</li>
+      <li>Balancing accuracy with coverage and diversity is critical to maintain discovery, especially in marketplaces with long-tail inventory.</li>
+      </ul>
+        </div>
+        <div class="post-footer-bar">
+          <a href="../index.html">Back to the garden</a>
+          <span>Updated Nov 18, 2025</span>
+          <span>Crafted with curious machines & thoughtful humans.</span>
+        </div>
+      </article>
+    </div>
+  </main>
+</div>
+</body>
+</html>

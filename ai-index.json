@@ -2,12 +2,23 @@
   "site": {
     "title": "Codes is cheap, show me the chat",
     "tagline": "Explore AI-assisted coding dialogues distilled into polished, human-friendly write-ups.",
-    "generatedAt": "2025-10-31T03:58:35.831880+00:00",
+    "generatedAt": "2025-11-18T08:56:15.315841+00:00",
     "timezone": "Asia/Shanghai",
     "url": "https://codeischeapshowmethe.chat",
     "language": "en"
   },
   "posts": [
+    {
+      "title": "Evaluating Recommender Systems (EvidentlyAI summary)",
+      "slug": "evaluating-recommender-systems-evidentlyai-summary",
+      "url": "posts/evaluating-recommender-systems-evidentlyai-summary.html",
+      "excerpt": "Evaluating Recommender Systems (EvidentlyAI summary) Source: https://www.evidentlyai.com/ranking-metrics/evaluating-recommender-systems Overview This EvidentlyAI article walks through how to align ranking metrics with th…",
+      "wordCount": 258,
+      "exportedAt": null,
+      "sourceTool": null,
+      "originalPath": "en/evaluating-recommender-systems.md",
+      "language": "en"
+    },
     {
       "title": "Understanding dynamic module swapping in PyTorch",
       "slug": "understanding-dynamic-module-swapping-in-pytorch",
